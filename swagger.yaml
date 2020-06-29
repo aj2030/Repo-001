@@ -1,0 +1,449 @@
+basePath: /humana/dev
+definitions:
+  Error:
+    example:
+      details:
+        - >-
+          Value 'abcdefghijklmnop' for Example.alias is invalid: size must be
+          between 0 and 10
+      error: Bad Request
+      errorId: 6dd0e0a1-e804-4993-8647-c566a3dcc675
+      status: 400
+      timestamp: '2020-02-03T15:45:01.285+0000'
+    properties:
+      details:
+        items:
+          type: string
+        type: array
+      error:
+        type: string
+      errorId:
+        format: uuid
+        type: string
+      status:
+        type: integer
+      timestamp:
+        format: date-time
+        type: string
+    required:
+      - timestamp
+      - status
+    type: object
+  FacilityContract:
+    description: Facility Contract Object
+    example:
+      adjudicator: ''
+      ascInd: ''
+      carveoutInd: ''
+      centerNbr: '999999999'
+      centerSuffix: ''
+      changeAdj: ABC1234
+      changeDate: '2012-09-30T00:00:00.000Z'
+      cisId: ''
+      client: 58
+      discountParms:
+        holdHarm: ''
+        inpatientCombinedLineInd: ''
+        outpatientCombinedLineInd: ''
+        parCode: ''
+        payMethodInd: ''
+        timelyFilingPeriod: ''
+        voucherCode: ''
+      drgGroupInd: ''
+      effDate: '2012-09-30'
+      hpcInd: ''
+      lob: '12'
+      networkNbr: '9999'
+      provId: '999999999'
+      provInd: H
+      provSuffix: ''
+      seqNbr: 1
+      splitBillInd: ''
+      status: ''
+      statusDate: '2012-09-30'
+      termDate: '2012-09-30'
+    properties:
+      adjudicator:
+        type: string
+      ascInd:
+        type: string
+      carveoutInd:
+        type: string
+      centerNbr:
+        pattern: '^[0-9]{9}$'
+        type: string
+      centerSuffix:
+        type: string
+      changeAdj:
+        pattern: '[\S]{7,}'
+        type: string
+      changeDate:
+        format: date-time
+        readOnly: true
+        type: string
+      cisId:
+        type: string
+      client:
+        format: int32
+        type: integer
+      discountParms:
+        properties:
+          holdHarm:
+            type: string
+          inpatientCombinedLineInd:
+            type: string
+          outpatientCombinedLineInd:
+            type: string
+          parCode:
+            type: string
+          payMethodInd:
+            type: string
+          timelyFilingPeriod:
+            type: string
+          voucherCode:
+            type: string
+        type: object
+      drgGroupInd:
+        type: string
+      effDate:
+        format: date
+        type: string
+      hpcInd:
+        type: string
+      lob:
+        maxLength: 2
+        minLength: 2
+        type: string
+      networkNbr:
+        type: string
+      provId:
+        pattern: '^[0-9]{9}$'
+        type: string
+      provInd:
+        type: string
+      provSuffix:
+        type: string
+      seqNbr:
+        format: int32
+        readOnly: true
+        type: integer
+      splitBillInd:
+        type: string
+      status:
+        type: string
+      statusDate:
+        format: date
+        type: string
+      termDate:
+        format: date
+        type: string
+    title: Root Type for FacilityContract
+    type: object
+  PhysicianContract:
+    description: Physician Contract Object
+    example:
+      adjudicator: ''
+      centerNbr: '999999999'
+      centerSuffix: ''
+      changeAdj: ABC1234
+      changeDate: '2012-09-30T00:00:00.000Z'
+      cisId:
+        commercial: ''
+        medicare: ''
+      client: 58
+      discountParms:
+        holdHarm: ''
+        parCode: ''
+        paymentMethodInd: ''
+        timelyFilingPeriod: ''
+        voucherCode: ''
+        withhold: 100
+      effDate: '2012-09-30'
+      hpcInd: ''
+      lob: A
+      networkNbr: '9999'
+      paymentMethodOrder:
+        contractCategoryOrd: 1
+        contractProcedureOrd: 1
+        defaultOrd: 3
+      provId: '999999999'
+      provInd: D
+      provSuffix: ''
+      seqNbr: 1
+      status: ''
+      statusDate: '2012-09-30'
+      termDate: '2012-09-30'
+      updateSys: ''
+    properties:
+      adjudicator:
+        type: string
+      centerNbr:
+        pattern: '^[0-9]{9}$'
+        type: string
+      centerSuffix:
+        type: string
+      changeAdj:
+        pattern: '[\S]{7,}'
+        type: string
+      changeDate:
+        format: date-time
+        readOnly: true
+        type: string
+      cisId:
+        properties:
+          commercial:
+            type: string
+          medicare:
+            type: string
+        type: object
+      client:
+        format: int32
+        type: integer
+      discountParms:
+        properties:
+          holdHarm:
+            type: string
+          parCode:
+            type: string
+          paymentMethodInd:
+            type: string
+          timelyFilingPeriod:
+            type: string
+          voucherCode:
+            type: string
+          withhold:
+            format: double
+            type: number
+        type: object
+      effDate:
+        format: date
+        type: string
+      hpcInd:
+        type: string
+      lob:
+        maxLength: 1
+        minLength: 1
+        type: string
+      networkNbr:
+        type: string
+      paymentMethodOrder:
+        properties:
+          contractCategoryOrd:
+            format: int32
+            type: integer
+          contractProcedureOrd:
+            format: int32
+            type: integer
+          defaultOrd:
+            format: int32
+            type: integer
+        type: object
+      provId:
+        pattern: '^[0-9]{9}$'
+        type: string
+      provInd:
+        type: string
+      provSuffix:
+        type: string
+      seqNbr:
+        format: int32
+        readOnly: true
+        type: integer
+      status:
+        type: string
+      statusDate:
+        format: date
+        type: string
+      termDate:
+        format: date
+        type: string
+      updateSys:
+        type: string
+    title: Root Type for PhysicianContract
+    type: object
+host: 'dev-apicgw.humana.com:48022'
+info:
+  contact:
+    email: HCaaS@humana.com
+    name: HCaaS
+  description: API for Provider Contract Information
+  title: ProviderContract
+  version: 1.0.0
+paths:
+  /v1/providercontract/:
+    description: Access Provider Contract Information
+    get:
+      description: >-
+        Retrieve provider contracts for a specific provider. If required input
+        parameters are not received, then 404 bad request error will be
+        returned. Based on the required and optional input combination, contract
+        data will be fetched, filtered and returned. A list of one or more
+        contract document will be returned as response.
+      parameters:
+        - default: 100
+          description: >-
+            This query parameter is used to limit the number of document
+            returned by the get operation. This is needed to support pagination
+            when the number of documents returned is huge.  This parameter is
+            defaulted to 100 when a value is not supplied by the client.
+          examples:
+            limit:
+              value: '34'
+          in: query
+          name: limit
+          required: false
+          type: integer
+        - default: 0
+          description: >-
+            This query parameter is used to paginate the number of documents
+            returned by get operation. This a zero based offset that will be
+            utlized to fetch additional document after the offset value.
+            Defaulted to 0.
+          examples:
+            offset:
+              value: '83'
+          in: query
+          name: offset
+          required: false
+          type: integer
+        - description: 'Provider ID. Valid value pattern for this fields is ''^[0-9]{9}$''.'
+          examples:
+            ProviderId:
+              value: 020643409
+          in: header
+          name: provId
+          required: true
+          type: string
+        - description: Provider Indicator. Valid value pattern for this fields is D or H.
+          examples:
+            provInd:
+              value: D
+          in: header
+          name: provInd
+          required: true
+          type: string
+        - description: >-
+            Provider Suffix. Valid value pattern for this field is '^[0-9A-Za-z
+            ]{1}$'. If nothing is passed in this field from consumer, it will be
+            defaulted to ' ' (1 character blank space).
+          examples:
+            ProviderSuffix:
+              value: A
+          in: header
+          name: provSuffix
+          required: true
+          type: string
+        - description: Line of Business.
+          examples:
+            ASO:
+              value: '7'
+            Commercial:
+              value: '5'
+            HumanaOne:
+              value: '2'
+            Medicare:
+              value: '3'
+          in: header
+          name: lineOfBusiness
+          required: false
+          type: string
+        - description: 'Center Number. Valid value pattern for this field is ''[0-9]{9}$'
+          examples:
+            CenterNumber:
+              value: '999999999'
+          in: header
+          name: centerNumber
+          required: false
+          type: string
+        - description: >-
+            Center Suffix. Valid value pattern for this field is '^[0-9A-Za-z
+            ]{1}$'. If nothing is passed in this field from consumer, it will be
+            defaulted to ' ' (1 character blank space).
+          examples:
+            CenterSuffix:
+              value: A
+          in: header
+          name: centerSuffix
+          required: false
+          type: string
+        - description: 'Network Number. Valid value pattern for this field is ''^[0-9]{4}$'''
+          examples:
+            Network:
+              value: '5678'
+          in: header
+          name: networkNumber
+          required: false
+          type: string
+        - description: >-
+            Contract Sequence. Valid value pattern for this field is any valid
+            integer.
+          examples:
+            Sequence:
+              value: '2'
+          in: header
+          name: contractSeq
+          required: false
+          type: integer
+      produces:
+        - application/json
+      responses:
+        '200':
+          description: Success
+          schema:
+            items: {}
+            type: array
+        '400':
+          description: Bad Request
+          examples:
+            application/json:
+              details:
+                - Required input parameters are not received in the http header
+              error: Bad Request
+              errorId: 6dd0e0a1-e804-4993-8647-c566a3dcc675
+              status: 400
+              timestamp: '2020-02-03T15:45:01.285+0000'
+          schema:
+            $ref: '#/definitions/Error'
+        '404':
+          description: Not Found
+          examples:
+            application/json:
+              details:
+                - No physician contract found matching input criteria
+              error: Not Found
+              errorId: 6dd0e0a1-e804-4993-8647-c566a3dcc675
+              status: 404
+              timestamp: '2020-02-03T15:45:01.285+0000'
+          schema:
+            $ref: '#/definitions/Error'
+        '500':
+          description: Internal Server Error
+          examples:
+            application/json:
+              details:
+                - Contract DataBase is Unavailable
+              error: Internal Server Error
+              errorId: 6dd0e0a1-e804-4993-8647-c566a3dcc675
+              status: 500
+              timestamp: '2020-02-03T15:45:01.285+0000'
+          schema:
+            $ref: '#/definitions/Error'
+      security:
+        - clientIdHeader: []
+      summary: Retrieve Provider Contracts
+      tags:
+        - ProviderContract
+    summary: Provider Contract Information
+schemes:
+  - https
+security:
+  - clientIdHeader: []
+securityDefinitions:
+  clientIdHeader:
+    description: Client will pass the API key in the HTTP Header.
+    in: header
+    name: X-IBM-Client-Id
+    type: apiKey
+swagger: '2.0'
+x-components: {}
+

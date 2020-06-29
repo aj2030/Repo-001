@@ -1,0 +1,469 @@
+openapi: 3.0.2
+info:
+  title: ProviderContract
+  version: 1.0.0
+  description: API for Provider Contract Information
+  contact:
+    name: HCaaS
+    email: HCaaS@humana.com
+servers:
+  - url: https://dev-apicgw.humana.com:48022/humana/dev
+    description: Dev Server
+paths:
+  /v1/providercontract/:
+    summary: Provider Contract Information
+    description: Access Provider Contract Information
+    get:
+      tags:
+        - ProviderContract
+      summary: Retrieve Provider Contracts
+      description: 
+        Retrieve provider contracts for a specific provider.
+        If required input parameters are not received, then 404 bad request error will be returned.
+        Based on the required and optional input combination, contract data will be fetched, filtered and returned. A list of one or more contract document will be returned as response.
+      parameters:
+      - name: limit
+        description: 
+          "This query parameter is used to limit the number of document returned by the get operation. This is needed to support pagination when
+          the number of documents returned is huge. 
+          This parameter is defaulted to 100 when a value is not supplied by the client."
+        schema:
+          type: integer
+          default: 100
+        in: query
+        required: false
+        examples:
+          limit:
+            value: "34"
+      - name: offset
+        description: 
+          This query parameter is used to paginate the number of documents returned by get operation. This a zero based offset that will be utlized to fetch additional document after the offset value.
+          Defaulted to 0.
+        schema:
+          type: integer
+          default: 0
+        in: query
+        required: false
+        examples:
+          offset:
+            value: "83"
+      - name: provId
+        description: Provider ID. Valid value pattern for this fields is '^[0-9]{9}$'. 
+        schema:
+          type: string
+        in: header
+        required: true
+        examples:
+          ProviderId:
+            value: "020643409"
+      - name: provInd
+        description: Provider Indicator. Valid value pattern for this fields is D or H. 
+        schema:
+          type: string
+        in: header
+        required: true
+        examples:
+          provInd:
+            value: "D"            
+      - name: provSuffix
+        description: Provider Suffix. Valid value pattern for this field is '^[0-9A-Za-z ]{1}$'. If nothing is passed in this field from consumer, it will be defaulted to ' ' (1 character blank space). 
+        schema:
+          type: string
+        in: header
+        required: true
+        examples:
+          ProviderSuffix:
+            value: "A"
+      - name: lineOfBusiness
+        description: Line of Business. 
+        schema:
+          type: string
+        in: header
+        required: false
+        examples:
+          Medicare:
+            value: "3"
+          ASO:
+            value: "7"
+          HumanaOne:
+            value: "2"
+          Commercial:
+            value: "5"
+      - name: centerNumber
+        description: Center Number. Valid value pattern for this field is '[0-9]{9}$
+        schema:
+          type: string          
+        in: header
+        required: false
+        examples:
+          CenterNumber:
+            value: "999999999"
+      - name: centerSuffix
+        description: Center Suffix. Valid value pattern for this field is '^[0-9A-Za-z ]{1}$'. If nothing is passed in this field from consumer, it will be defaulted to ' ' (1 character blank space).
+        schema:
+          type: string
+        in: header
+        required: false
+        examples:
+          CenterSuffix:
+            value: "A"
+      - name: networkNumber
+        description: Network Number. Valid value pattern for this field is '^[0-9]{4}$'
+        schema:
+          type: string
+        in: header
+        required: false
+        examples:
+          Network:
+            value: "5678"
+      - name: contractSeq
+        description: Contract Sequence. Valid value pattern for this field is any valid integer. 
+        schema:
+          type: integer
+        in: header
+        required: false
+        examples:
+          Sequence:
+            value: "2"
+      responses:
+        200:
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  oneOf: 
+                    - $ref: '#/components/schemas/PhysicianContract'
+                    - $ref: '#/components/schemas/FacilityContract'
+        400:
+          description: 'Bad Request'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              example:
+                {
+                  "errorId": "6dd0e0a1-e804-4993-8647-c566a3dcc675",
+                  "timestamp": "2020-02-03T15:45:01.285+0000",
+                  "status": 400,
+                  "error": "Bad Request",
+                  "details": [
+                        "Required input parameters are not received in the http header"
+                  ]
+                }
+        404:
+          description: 'Not Found'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              example:
+                {
+                  "errorId": "6dd0e0a1-e804-4993-8647-c566a3dcc675",
+                  "timestamp": "2020-02-03T15:45:01.285+0000",
+                  "status": 404,
+                  "error": "Not Found",
+                  "details": [
+                        "No physician contract found matching input criteria"
+                  ]
+                }
+        500:
+          description: 'Internal Server Error'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              example:
+                {
+                  "errorId": "6dd0e0a1-e804-4993-8647-c566a3dcc675",
+                  "timestamp": "2020-02-03T15:45:01.285+0000",
+                  "status": 500,
+                  "error": "Internal Server Error",
+                  "details": [
+                        "Contract DataBase is Unavailable"
+                  ]
+                }
+      security:
+      - clientIdHeader: []
+components:
+  schemas:
+    PhysicianContract:
+      title: Root Type for PhysicianContract
+      description: Physician Contract Object
+      type: object
+      properties:
+        client:
+          format: int32
+          type: integer
+        provId:
+          type: string
+          pattern: '^[0-9]{9}$'
+        provInd: 
+          type: string
+        provSuffix:
+          type: string
+        lob:
+          type: string
+          minLength: 1
+          maxLength: 1
+        centerNbr:
+          type: string
+          pattern: '^[0-9]{9}$'
+        centerSuffix:
+          type: string
+        networkNbr:
+          type: string
+        seqNbr:
+          format: int32
+          type: integer
+          readOnly: true
+        status:
+          type: string
+        effDate:
+          type: string
+          format: date
+        termDate:
+          type: string
+          format: date
+        changeDate:
+          type: string
+          format: date-time
+          readOnly: true
+        hpcInd:
+          type: string
+        statusDate:
+          type: string
+          format: date
+        adjudicator:
+          type: string
+        changeAdj:
+          type: string
+          pattern: '[\S]{7,}'
+        updateSys:
+          type: string
+        paymentMethodOrder:
+          type: object
+          properties:
+            contractProcedureOrd:
+              format: int32
+              type: integer
+            contractCategoryOrd:
+              format: int32
+              type: integer
+            defaultOrd:
+              format: int32
+              type: integer
+        discountParms:
+          type: object
+          properties:
+            withhold:
+              format: double
+              type: number
+            voucherCode:
+              type: string
+            parCode:
+              type: string
+            timelyFilingPeriod:
+              type: string
+            holdHarm:
+              type: string
+            paymentMethodInd:
+              type: string
+        cisId:
+          type: object
+          properties:
+            medicare:
+              type: string
+            commercial:
+              type: string
+      example:
+        {
+          "client": 58,
+          "provId": "999999999",
+          "provInd": "D",
+          "provSuffix": "",
+          "lob": "A",
+          "centerNbr": "999999999",
+          "centerSuffix": "",
+          "networkNbr": "9999",
+          "seqNbr": 1,
+          "status": "",
+          "effDate": "2012-09-30",
+          "termDate": "2012-09-30",
+          "changeDate": "2012-09-30T00:00:00.000Z",
+          "hpcInd": "",
+          "statusDate": "2012-09-30",
+          "adjudicator": "",
+          "changeAdj": "ABC1234",
+          "updateSys": "",
+          "paymentMethodOrder": {
+            "contractProcedureOrd": 1,
+            "contractCategoryOrd": 1,
+            "defaultOrd": 3
+          },
+          "discountParms": {
+            "withhold": 100.00,
+            "voucherCode": "",
+            "parCode": "",
+            "timelyFilingPeriod": "",
+            "holdHarm": "",
+            "paymentMethodInd": ""
+          },
+          "cisId": {
+            "medicare": "",
+            "commercial": ""
+          }
+        }    
+    FacilityContract:
+      title: Root Type for FacilityContract
+      description: Facility Contract Object
+      type: object
+      properties:
+        client:
+          format: int32
+          type: integer
+        provId:
+          type: string
+          pattern: '^[0-9]{9}$'
+        provInd: 
+          type: string          
+        provSuffix:
+          type: string
+        lob:
+          type: string
+          minLength: 2
+          maxLength: 2
+        centerNbr:
+          type: string
+          pattern: '^[0-9]{9}$'
+        centerSuffix:
+          type: string
+        networkNbr:
+          type: string
+        seqNbr:
+          format: int32
+          type: integer
+          readOnly: true
+        status:
+          type: string
+        effDate:
+          type: string
+          format: date
+        termDate:
+          type: string
+          format: date
+        changeDate:
+          type: string
+          format: date-time
+          readOnly: true
+        statusDate:
+          type: string
+          format: date
+        hpcInd:
+          type: string
+        adjudicator:
+          type: string
+        changeAdj:
+          type: string
+          pattern: '[\S]{7,}'
+        splitBillInd:
+          type: string
+        drgGroupInd:
+          type: string
+        cisId:
+          type: string
+        ascInd:
+          type: string
+        carveoutInd:
+          type: string
+        discountParms:
+          type: object
+          properties:
+            voucherCode:
+              type: string
+            parCode:
+              type: string
+            timelyFilingPeriod:
+              type: string
+            holdHarm:
+              type: string
+            payMethodInd:
+              type: string
+            inpatientCombinedLineInd:
+              type: string
+            outpatientCombinedLineInd:
+              type: string
+      example:
+        {
+          "client": 58,
+          "provId": "999999999",
+          "provInd": "H",          
+          "provSuffix": "",
+          "lob": "12",
+          "centerNbr": "999999999",
+          "centerSuffix": "",
+          "networkNbr": "9999",
+          "seqNbr": 1,
+          "status": "",
+          "effDate": "2012-09-30",
+          "termDate": "2012-09-30",
+          "changeDate": "2012-09-30T00:00:00.000Z",
+          "statusDate": "2012-09-30",
+          "hpcInd": "",
+          "adjudicator": "",
+          "changeAdj": "ABC1234",
+          "splitBillInd": "",
+          "drgGroupInd": "",
+          "cisId": "",
+          "ascInd": "",
+          "carveoutInd": "",
+          "discountParms": {
+            "voucherCode": "",
+            "parCode": "",
+            "timelyFilingPeriod": "",
+            "holdHarm": "",
+            "payMethodInd": "",
+            "inpatientCombinedLineInd": "",
+            "outpatientCombinedLineInd": ""
+          }
+        }
+    Error:
+      type: object
+      required:
+        - timestamp
+        - status
+      properties:
+        errorId:
+          type: string
+          format: uuid
+        timestamp:
+          type: string
+          format: date-time
+        status:
+          type: integer
+        error:
+          type: string
+        details:
+          type: array
+          items:
+            type: string
+      example:
+        {
+          "errorId": "6dd0e0a1-e804-4993-8647-c566a3dcc675",
+          "timestamp": "2020-02-03T15:45:01.285+0000",
+          "status": 400,
+          "error": "Bad Request",
+          "details": [
+              "Value 'abcdefghijklmnop' for Example.alias is invalid: size must be between 0 and 10"
+          ]
+        }
+  securitySchemes:
+    clientIdHeader:
+      type: apiKey
+      name: X-IBM-Client-Id
+      description: Client will pass the API key in the HTTP Header.
+      in: header
+security:
+- clientIdHeader: []
+

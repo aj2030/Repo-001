@@ -1,3 +1,5 @@
+swagger: "2.0"
+x-components: {}
 basePath: /humana/dev
 definitions:
   Error:
@@ -9,7 +11,7 @@ definitions:
       error: Bad Request
       errorId: 6dd0e0a1-e804-4993-8647-c566a3dcc675
       status: 400
-      timestamp: '2020-02-03T15:45:01.285+0000'
+      timestamp: "2020-02-03T15:45:01.285+0000"
     properties:
       details:
         items:
@@ -32,36 +34,36 @@ definitions:
   FacilityContract:
     description: Facility Contract Object
     example:
-      adjudicator: ''
-      ascInd: ''
-      carveoutInd: ''
-      centerNbr: '999999999'
-      centerSuffix: ''
+      adjudicator: ""
+      ascInd: ""
+      carveoutInd: ""
+      centerNbr: "999999999"
+      centerSuffix: ""
       changeAdj: ABC1234
-      changeDate: '2012-09-30T00:00:00.000Z'
-      cisId: ''
+      changeDate: "2012-09-30T00:00:00.000Z"
+      cisId: ""
       client: 58
       discountParms:
-        holdHarm: ''
-        inpatientCombinedLineInd: ''
-        outpatientCombinedLineInd: ''
-        parCode: ''
-        payMethodInd: ''
-        timelyFilingPeriod: ''
-        voucherCode: ''
-      drgGroupInd: ''
-      effDate: '2012-09-30'
-      hpcInd: ''
-      lob: '12'
-      networkNbr: '9999'
-      provId: '999999999'
+        holdHarm: ""
+        inpatientCombinedLineInd: ""
+        outpatientCombinedLineInd: ""
+        parCode: ""
+        payMethodInd: ""
+        timelyFilingPeriod: ""
+        voucherCode: ""
+      drgGroupInd: ""
+      effDate: "2012-09-30"
+      hpcInd: ""
+      lob: "12"
+      networkNbr: "9999"
+      provId: "999999999"
       provInd: H
-      provSuffix: ''
+      provSuffix: ""
       seqNbr: 1
-      splitBillInd: ''
-      status: ''
-      statusDate: '2012-09-30'
-      termDate: '2012-09-30'
+      splitBillInd: ""
+      status: ""
+      statusDate: "2012-09-30"
+      termDate: "2012-09-30"
     properties:
       adjudicator:
         type: string
@@ -70,7 +72,7 @@ definitions:
       carveoutInd:
         type: string
       centerNbr:
-        pattern: '^[0-9]{9}$'
+        pattern: "^[0-9]{9}$"
         type: string
       centerSuffix:
         type: string
@@ -117,7 +119,7 @@ definitions:
       networkNbr:
         type: string
       provId:
-        pattern: '^[0-9]{9}$'
+        pattern: "^[0-9]{9}$"
         type: string
       provInd:
         type: string
@@ -142,43 +144,43 @@ definitions:
   PhysicianContract:
     description: Physician Contract Object
     example:
-      adjudicator: ''
-      centerNbr: '999999999'
-      centerSuffix: ''
+      adjudicator: ""
+      centerNbr: "999999999"
+      centerSuffix: ""
       changeAdj: ABC1234
-      changeDate: '2012-09-30T00:00:00.000Z'
+      changeDate: "2012-09-30T00:00:00.000Z"
       cisId:
-        commercial: ''
-        medicare: ''
+        commercial: ""
+        medicare: ""
       client: 58
       discountParms:
-        holdHarm: ''
-        parCode: ''
-        paymentMethodInd: ''
-        timelyFilingPeriod: ''
-        voucherCode: ''
+        holdHarm: ""
+        parCode: ""
+        paymentMethodInd: ""
+        timelyFilingPeriod: ""
+        voucherCode: ""
         withhold: 100
-      effDate: '2012-09-30'
-      hpcInd: ''
+      effDate: "2012-09-30"
+      hpcInd: ""
       lob: A
-      networkNbr: '9999'
+      networkNbr: "9999"
       paymentMethodOrder:
         contractCategoryOrd: 1
         contractProcedureOrd: 1
         defaultOrd: 3
-      provId: '999999999'
+      provId: "999999999"
       provInd: D
-      provSuffix: ''
+      provSuffix: ""
       seqNbr: 1
-      status: ''
-      statusDate: '2012-09-30'
-      termDate: '2012-09-30'
-      updateSys: ''
+      status: ""
+      statusDate: "2012-09-30"
+      termDate: "2012-09-30"
+      updateSys: ""
     properties:
       adjudicator:
         type: string
       centerNbr:
-        pattern: '^[0-9]{9}$'
+        pattern: "^[0-9]{9}$"
         type: string
       centerSuffix:
         type: string
@@ -239,7 +241,7 @@ definitions:
             type: integer
         type: object
       provId:
-        pattern: '^[0-9]{9}$'
+        pattern: "^[0-9]{9}$"
         type: string
       provInd:
         type: string
@@ -261,7 +263,7 @@ definitions:
         type: string
     title: Root Type for PhysicianContract
     type: object
-host: 'dev-apicgw.humana.com:48022'
+host: $(catalog.host)
 info:
   contact:
     email: HCaaS@humana.com
@@ -271,7 +273,6 @@ info:
   version: 1.0.0
 paths:
   /v1/providercontract/:
-    description: Access Provider Contract Information
     get:
       description: >-
         Retrieve provider contracts for a specific provider. If required input
@@ -286,38 +287,30 @@ paths:
             returned by the get operation. This is needed to support pagination
             when the number of documents returned is huge.  This parameter is
             defaulted to 100 when a value is not supplied by the client.
-          examples:
-            limit:
-              value: '34'
           in: query
           name: limit
           required: false
           type: integer
+
         - default: 0
           description: >-
             This query parameter is used to paginate the number of documents
             returned by get operation. This a zero based offset that will be
             utlized to fetch additional document after the offset value.
             Defaulted to 0.
-          examples:
-            offset:
-              value: '83'
+
           in: query
           name: offset
           required: false
           type: integer
-        - description: 'Provider ID. Valid value pattern for this fields is ''^[0-9]{9}$''.'
-          examples:
-            ProviderId:
-              value: 020643409
+        - description: "Provider ID. Valid value pattern for this fields is '^[0-9]{9}$'."
+
           in: header
           name: provId
           required: true
           type: string
         - description: Provider Indicator. Valid value pattern for this fields is D or H.
-          examples:
-            provInd:
-              value: D
+
           in: header
           name: provInd
           required: true
@@ -326,31 +319,20 @@ paths:
             Provider Suffix. Valid value pattern for this field is '^[0-9A-Za-z
             ]{1}$'. If nothing is passed in this field from consumer, it will be
             defaulted to ' ' (1 character blank space).
-          examples:
-            ProviderSuffix:
-              value: A
+
           in: header
           name: provSuffix
           required: true
           type: string
         - description: Line of Business.
-          examples:
-            ASO:
-              value: '7'
-            Commercial:
-              value: '5'
-            HumanaOne:
-              value: '2'
-            Medicare:
-              value: '3'
+
           in: header
           name: lineOfBusiness
           required: false
           type: string
-        - description: 'Center Number. Valid value pattern for this field is ''[0-9]{9}$'
-          examples:
-            CenterNumber:
-              value: '999999999'
+
+        - description: "Center Number. Valid value pattern for this field is '[0-9]{9}$"
+
           in: header
           name: centerNumber
           required: false
@@ -359,17 +341,13 @@ paths:
             Center Suffix. Valid value pattern for this field is '^[0-9A-Za-z
             ]{1}$'. If nothing is passed in this field from consumer, it will be
             defaulted to ' ' (1 character blank space).
-          examples:
-            CenterSuffix:
-              value: A
+
           in: header
           name: centerSuffix
           required: false
           type: string
-        - description: 'Network Number. Valid value pattern for this field is ''^[0-9]{4}$'''
-          examples:
-            Network:
-              value: '5678'
+        - description: "Network Number. Valid value pattern for this field is '^[0-9]{4}$'"
+
           in: header
           name: networkNumber
           required: false
@@ -377,9 +355,7 @@ paths:
         - description: >-
             Contract Sequence. Valid value pattern for this field is any valid
             integer.
-          examples:
-            Sequence:
-              value: '2'
+
           in: header
           name: contractSeq
           required: false
@@ -387,12 +363,12 @@ paths:
       produces:
         - application/json
       responses:
-        '200':
+        "200":
           description: Success
           schema:
             items: {}
             type: array
-        '400':
+        "400":
           description: Bad Request
           examples:
             application/json:
@@ -401,10 +377,10 @@ paths:
               error: Bad Request
               errorId: 6dd0e0a1-e804-4993-8647-c566a3dcc675
               status: 400
-              timestamp: '2020-02-03T15:45:01.285+0000'
+              timestamp: "2020-02-03T15:45:01.285+0000"
           schema:
-            $ref: '#/definitions/Error'
-        '404':
+            $ref: "#/definitions/Error"
+        "404":
           description: Not Found
           examples:
             application/json:
@@ -413,10 +389,10 @@ paths:
               error: Not Found
               errorId: 6dd0e0a1-e804-4993-8647-c566a3dcc675
               status: 404
-              timestamp: '2020-02-03T15:45:01.285+0000'
+              timestamp: "2020-02-03T15:45:01.285+0000"
           schema:
-            $ref: '#/definitions/Error'
-        '500':
+            $ref: "#/definitions/Error"
+        "500":
           description: Internal Server Error
           examples:
             application/json:
@@ -425,15 +401,15 @@ paths:
               error: Internal Server Error
               errorId: 6dd0e0a1-e804-4993-8647-c566a3dcc675
               status: 500
-              timestamp: '2020-02-03T15:45:01.285+0000'
+              timestamp: "2020-02-03T15:45:01.285+0000"
           schema:
-            $ref: '#/definitions/Error'
+            $ref: "#/definitions/Error"
       security:
         - clientIdHeader: []
       summary: Retrieve Provider Contracts
       tags:
         - ProviderContract
-    summary: Provider Contract Information
+
 schemes:
   - https
 security:
@@ -444,6 +420,3 @@ securityDefinitions:
     in: header
     name: X-IBM-Client-Id
     type: apiKey
-swagger: '2.0'
-x-components: {}
-
